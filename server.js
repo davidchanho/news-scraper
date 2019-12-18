@@ -31,12 +31,11 @@ mongoose.connect( MONGODB_URI, {
 })
 
 // Routes
-app.get('/index', function(req, res) {
-	res.sendFile(path.join(__dirname, './public/index.html'));
-});
+
 // A GET route for scraping the echoJS website
-app.get('/scrape', (req, res) => {
+app.get('/index', (req, res) => {
 	// First, we grab the body of the html with axios
+	res.sendFile(path.join(__dirname, './public/index.html'));
 	axios.get('https://www.nytimes.com/section/world').then(response => {
 		// Then, we load that into cheerio and save it to $ for a shorthand selector
 		let $ = cheerio.load(response.data)
