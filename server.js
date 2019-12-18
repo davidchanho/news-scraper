@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const logger = require('morgan')
 const mongoose = require('mongoose')
 const axios = require('axios')
@@ -7,7 +8,7 @@ const cheerio = require('cheerio')
 // Require all models
 const db = require('./models')
 
-const PORT = 8080
+const PORT = process.env.PORT || 3000
 
 // Initialize Express
 const app = express()
@@ -29,7 +30,9 @@ mongoose.connect('mongodb://localhost/newScraperDB', {
 })
 
 // Routes
-
+app.get('/index', function(req, res) {
+	res.sendFile(path.join(__dirname, './public/index.html'));
+});
 // A GET route for scraping the echoJS website
 app.get('/scrape', (req, res) => {
 	// First, we grab the body of the html with axios

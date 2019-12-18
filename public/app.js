@@ -8,12 +8,13 @@ $.getJSON('/articles', function(data) {
 				data[i]._id +
 				"'>" +
 				data[i].title +
-      '<br />' +
-      data[i].summary +
-      '<br />' +
-      data[i].author +
-      '<br />' +
-				'https://www.nytimes.com/' + data[i].link +
+				'<br />' +
+				data[i].summary +
+				'<br />' +
+				data[i].author +
+				'<br />' +
+				'https://www.nytimes.com/' +
+				data[i].link +
 				'</p>'
 		)
 	}
