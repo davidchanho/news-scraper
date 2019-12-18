@@ -21,7 +21,8 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/newScraperDB
 // Connect to the Mongo DB
 mongoose.connect( MONGODB_URI, {
 	useNewUrlParser: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
+	useFindAndModify: false
 })
 
 require('./routes/html-routes.js')(app);

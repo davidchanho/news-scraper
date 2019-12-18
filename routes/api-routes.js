@@ -3,8 +3,9 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 
 module.exports = function(app) {
-	// A GET route for scraping the echoJS website
-	app.get('/scrape', (req, res) => {
+  // A GET route for scraping the echoJS website
+  app.get('/scrape', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/scrape.html'))
 		// First, we grab the body of the html with axios
 		axios.get('https://www.nytimes.com/section/world').then(response => {
 			// Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -38,7 +39,7 @@ module.exports = function(app) {
 			})
 
 			// Send a message to the client
-			res.sendFile(path.join(__dirname, './public/scrape.html'))
+
 		})
 	})
 
@@ -66,6 +67,20 @@ module.exports = function(app) {
 		db.Note.create(req.body)
 			.then(dbNote =>
 				db.Article.findOneAndUpdate(
+					{ _id: req.params.id },
+					{ note: dbNote._id },
+					{ new: true }
+				)
+			)
+			.then(dbArticle => res.json(dbArticle))
+			.catch(err => res.json(err))
+  })
+
+  app.post('/delete/:id', (req, res) => {
+		// Create a new note and pass the req.body to the entry
+		db.Note.deleteOne(req.body)
+			.then(dbNote =>
+				db.Article.findOneAndDelete(
 					{ _id: req.params.id },
 					{ note: dbNote._id },
 					{ new: true }
